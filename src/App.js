@@ -36,7 +36,7 @@ function App() {
     for (let row = 0; row < newMatrix.length; ++row) {
       newMatrix[row] = new Array(newCols);
       for (let col = 0; col < newMatrix[row].length; ++col) {
-        if(row < matrix.length && col < matrix[row].length){
+        if (row < matrix.length && col < matrix[row].length) {
           newMatrix[row][col] = matrix[row][col];
         } else {
           newMatrix[row][col] = { value: 0, key: generateId() };
@@ -114,13 +114,7 @@ function App() {
         </button>
       </div>
       <header className="App-header">
-        <Flipper
-          spring="gentle"
-          flipKey={matrix
-            .flat()
-            .map((cell) => cell.key)
-            .join("")}
-        >
+        <Flipper spring="gentle" flipKey={generateId()}>
           <div
             className="matrix"
             style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}

@@ -1,65 +1,71 @@
 .App {
-    text-align: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 #control {
   background-color: #1b1d22;
   color: white;
-    min-height: 10vh;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  min-height: 10vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#control input {
+  min-width: 50vw;
 }
 
 .App-header {
-    background-color: #282c34;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(12px + 2vmin);
-    color: white;
+  background-color: #282c34;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(12px + 2vmin);
+  color: white;
+  align-items: center;
 }
 .App-header p {
   font-size: calc(10px);
 }
 
 input[type="text"] {
-    font-size: calc(10px + 2vmin);
-
+  font-size: calc(10px + 2vmin);
 }
 
 .matrix {
-    display: grid;
-    position: relative;
+  display: grid;
+  position: relative;
+  width: 85vw;
+  max-width: 768px;
 }
 
 .gridItem {
-    padding: 1vmin;
+  padding: 1vmin;
 }
 
 .matrix:before,
 .matrix:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    border: 2px solid rgb(255, 255, 255);
-    width: 6px;
-    height: 100%;
+  content: "";
+  position: absolute;
+  top: 0;
+  border: 2px solid rgb(255, 255, 255);
+  width: 6px;
+  height: 100%;
 }
 
 .matrix:before {
-    left: -6px;
-    border-right: 0;
+  left: -6px;
+  border-right: 0;
 }
 
 .matrix:after {
-    right: -6px;
-    border-left: 0;
+  right: -6px;
+  border-left: 0;
 }
