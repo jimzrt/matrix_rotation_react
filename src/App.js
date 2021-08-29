@@ -4,46 +4,41 @@ import { Flipper, Flipped } from "react-flip-toolkit";
 import * as uuid from "uuid";
 import MatrixCell from "./components/MatrixCell.js";
 
-//const zip = rows => rows[0].map((_, c) => rows.map(row => row[c]))
 const generateId = () => uuid.v4();
 
 const initialMatrix = [
-  [
-    { value: 1, key: generateId() },
-    { value: 2, key: generateId() },
-    { value: 3, key: generateId() },
-  ],
-  [
-    { value: 4, key: generateId() },
-    { value: 5, key: generateId() },
-    { value: 6, key: generateId() },
-  ],
-  [
-    { value: 7, key: generateId() },
-    { value: 8, key: generateId() },
-    { value: 9, key: generateId() },
-  ],
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9],
 ];
 const initialRows = initialMatrix.length;
 const initialCols = initialMatrix[0].length;
 
 function App() {
-  const [matrix, setMatrix] = React.useState(initialMatrix);
+  const [matrix, setMatrix] = React.useState(
+    initialMatrix.map((row) =>
+      row.map((col) => ({ value: col, key: generateId() }))
+    )
+  );
   const [cols, setCols] = React.useState(initialCols);
   const [rows, setRows] = React.useState(initialRows);
-  const makeMatrix = (newRows, newCols) => {
+  const [stagger, setStagger] = React.useState(true);
+
+  const makeMatrix = (newRows, newCols, randomData = false) => {
     const newMatrix = new Array(newRows);
     for (let row = 0; row < newMatrix.length; ++row) {
       newMatrix[row] = new Array(newCols);
       for (let col = 0; col < newMatrix[row].length; ++col) {
-        if (row < matrix.length && col < matrix[row].length) {
+        if (!randomData && row < matrix.length && col < matrix[row].length) {
           newMatrix[row][col] = matrix[row][col];
         } else {
-          newMatrix[row][col] = { value: 0, key: generateId() };
+          newMatrix[row][col] = {
+            value: randomData ? Math.floor(Math.random() * 100) : 0,
+            key: generateId(),
+          };
         }
       }
     }
-
     setMatrix(newMatrix);
     setRows(newRows);
     setCols(newCols);
@@ -62,6 +57,7 @@ function App() {
     }
 
     // easy way
+    //const zip = rows => rows[0].map((_, c) => rows.map(row => row[c]))
     //let newMatrix = zip([...matrix].reverse());
     const tempCols = cols;
     setCols(rows);
@@ -76,11 +72,9 @@ function App() {
     const newRows = event.target.value;
     makeMatrix(parseInt(newRows), cols);
   };
-
   const changeValue = (row, cell, value) => {
-    const newMatrix = [...matrix];
-    newMatrix[row][cell] = { value: value, key: generateId() };
-    setMatrix(newMatrix);
+    matrix[row][cell].value = value;
+    setMatrix(matrix);
   };
 
   return (
@@ -106,12 +100,33 @@ function App() {
           className="slider"
           onChange={changeRows}
         ></input>
-        <button
-          style={{ padding: "1vmin", margin: "1vmin" }}
-          onClick={rotateMatrix}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
         >
-          Rotate
-        </button>
+          <button
+            style={{ padding: "1vmin", margin: "1vmin" }}
+            onClick={rotateMatrix}
+          >
+            Rotate
+          </button>
+          <button
+            style={{ padding: "1vmin", margin: "1vmin" }}
+            onClick={() => makeMatrix(rows, cols, true)}
+          >
+            Random
+          </button>
+          <label htmlFor="stagger">Fast</label>
+          <input
+            type="checkbox"
+            id="stagger"
+            checked={!stagger}
+            onChange={(e) => setStagger(!e.target.checked)}
+          ></input>
+        </div>
       </div>
       <header className="App-header">
         <Flipper
@@ -128,7 +143,11 @@ function App() {
           >
             {matrix.map((matrixRow, rowIndex) => {
               return matrixRow.map((matrixCell, cellIndex) => (
-                <Flipped stagger key={matrixCell.key} flipId={matrixCell.key}>
+                <Flipped
+                  stagger={stagger}
+                  key={matrixCell.key}
+                  flipId={matrixCell.key}
+                >
                   <div className="gridItem">
                     <MatrixCell
                       onUpdate={(value) =>

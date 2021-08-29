@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-#control input {
+#control input[type="range"] {
   min-width: 50vw;
 }
 
