@@ -114,14 +114,21 @@ function App() {
         </button>
       </div>
       <header className="App-header">
-        <Flipper spring="gentle" flipKey={generateId()}>
+        <Flipper
+          flipKey={generateId()}
+          staggerConfig={{
+            default: {
+              speed: 0.9,
+            },
+          }}
+        >
           <div
             className="matrix"
             style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
           >
             {matrix.map((matrixRow, rowIndex) => {
               return matrixRow.map((matrixCell, cellIndex) => (
-                <Flipped key={matrixCell.key} flipId={matrixCell.key}>
+                <Flipped stagger key={matrixCell.key} flipId={matrixCell.key}>
                   <div className="gridItem">
                     <MatrixCell
                       onUpdate={(value) =>

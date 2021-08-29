@@ -56,16 +56,16 @@ input[type="text"] {
   position: absolute;
   top: 0;
   border: 2px solid rgb(255, 255, 255);
-  width: 6px;
+  width: 12px;
   height: 100%;
 }
 
 .matrix:before {
-  left: -6px;
+  left: -8px;
   border-right: 0;
 }
 
 .matrix:after {
-  right: -6px;
+  right: -8px;
   border-left: 0;
 }
