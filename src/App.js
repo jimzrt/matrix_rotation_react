@@ -22,9 +22,11 @@ function App() {
   );
   const [cols, setCols] = React.useState(initialCols);
   const [rows, setRows] = React.useState(initialRows);
-  const [stagger, setStagger] = React.useState(true);
+  const [stagger, setStagger] = React.useState(false);
+  const [transition, setTransition] = React.useState(false);
 
   const makeMatrix = (newRows, newCols, randomData = false) => {
+    setTransition(true);
     const newMatrix = new Array(newRows);
     for (let row = 0; row < newMatrix.length; ++row) {
       newMatrix[row] = new Array(newCols);
@@ -44,6 +46,7 @@ function App() {
     setCols(newCols);
   };
   const rotateMatrix = () => {
+    setTransition(true);
     // manual way
     const newMatrix = new Array(cols);
     for (let row = 0; row < newMatrix.length; ++row) {
@@ -131,6 +134,7 @@ function App() {
       <header className="App-header">
         <Flipper
           flipKey={generateId()}
+          onComplete={() => setTransition(false)}
           staggerConfig={{
             default: {
               speed: 0.9,
@@ -138,8 +142,8 @@ function App() {
           }}
         >
           <div
-            className="matrix"
-            style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
+            className={`matrix ${transition ? "transition" : ""}`}
+            style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
           >
             {matrix.map((matrixRow, rowIndex) => {
               return matrixRow.map((matrixCell, cellIndex) => (
@@ -147,6 +151,7 @@ function App() {
                   stagger={stagger}
                   key={matrixCell.key}
                   flipId={matrixCell.key}
+                  translate
                 >
                   <div className="gridItem">
                     <MatrixCell
@@ -160,8 +165,10 @@ function App() {
               ));
             })}
           </div>
+          <Flipped key="text" flipId="text">
+            <p>Click cell to change value</p>
+          </Flipped>
         </Flipper>
-        <p>Click cell to change value</p>
       </header>
     </div>
   );

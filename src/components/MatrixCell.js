@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const MatrixCell = ({ initialValue, onUpdate, ...props }) => {
   const [isEditing, setEditing] = useState(false);
   const [value, setValue] = useState(initialValue);
+  const [width, setWidth] = useState(0);
+  const span = useRef();
+
+  useEffect(() => {
+    setWidth(span.current.offsetWidth + 2);
+  }, [isEditing, value]);
 
   const changeValue = (event) => {
     let newValue = parseInt(event.target.value);
@@ -19,6 +25,9 @@ const MatrixCell = ({ initialValue, onUpdate, ...props }) => {
   };
   return (
     <section {...props}>
+      <span id="hide" ref={span}>
+        {value}
+      </span>
       {isEditing ? (
         <input
           type="text"
@@ -31,7 +40,7 @@ const MatrixCell = ({ initialValue, onUpdate, ...props }) => {
               updateValue();
             }
           }}
-          style={{ width: `calc(2vmin*${value.toString().length})` }}
+          style={{ width }}
         />
       ) : (
         <div onClick={() => setEditing(true)}>{value}</div>

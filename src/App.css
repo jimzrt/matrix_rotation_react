@@ -27,7 +27,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: calc(12px + 2vmin);
+  font-size: 36px;
+  /* font-size: calc(12px + 2vmin); */
   color: white;
   align-items: center;
 }
@@ -35,37 +36,119 @@
   font-size: calc(10px);
 }
 
-input[type="text"] {
-  font-size: calc(10px + 2vmin);
+input[type="text"],
+input[type="text"]:focus {
+  /* font-size: calc(10px + 2vmin); */
+  margin: 0px;
+  background: transparent;
+  border: none;
+  color: white;
+  outline: 1px dashed;
+  font-size: 36px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hide {
+  position: absolute;
+  opacity: 0;
+  z-index: -100;
+  white-space: pre;
+  font-size: 36px;
+  /* font-size: calc(10px + 2vmin); */
 }
 
 .matrix {
   display: grid;
   position: relative;
-  width: 85vw;
-  max-width: 768px;
+  /* min-width: 280px; */
+  /* max-width: 768px; */
+  /* width: 480px; */
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .gridItem {
-  padding: 1vmin;
+  padding: 10px;
 }
 
-.matrix:before,
-.matrix:after {
+.matrix:not(.transition):before,
+.matrix:not(.transition):after {
   content: "";
   position: absolute;
   top: 0;
   border: 2px solid rgb(255, 255, 255);
   width: 12px;
   height: 100%;
+  animation: fadeIn 400ms linear;
+  -webkit-animation: fadeIn 400ms linear;
+  -moz-animation: fadeIn 400ms linear;
+  -o-animation: fadeIn 400ms linear;
+  -ms-animation: fadeIn 400ms linear;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.matrix:before {
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.matrix:not(.transition):before {
   left: -8px;
   border-right: 0;
 }
 
-.matrix:after {
+.matrix:not(.transition):after {
   right: -8px;
   border-left: 0;
+}
+
+@media (max-width: 420px) {
+  .App-header,
+  input[type="text"],
+  input[type="text"]:focus,
+  #hide {
+    font-size: 16px;
+  }
 }
